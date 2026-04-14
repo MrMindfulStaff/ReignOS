@@ -1,0 +1,43 @@
+{
+  "name": "reign-launch-page",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@prisma/client": "^5.22.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tiptap/extension-image": "^3.18.0",
+    "@tiptap/extension-link": "^3.18.0",
+    "@tiptap/extension-placeholder": "^3.18.0",
+    "@tiptap/pm": "^3.18.0",
+    "@tiptap/react": "^3.18.0",
+    "@tiptap/starter-kit": "^3.18.0",
+    "@vercel/blob": "^2.0.1",
+    "@vercel/speed-insights": "^1.3.1",
+    "dotenv": "^17.2.3",
+    "jose": "^6.1.3",
+    "next": "14.2.35",
+    "nodemailer": "^8.0.1",
+    "prisma": "^5.22.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-mailchimp-subscribe": "^2.1.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "@types/nodemailer": "^7.0.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/trusted-types": "^2.0.7",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4"
+  }
+}

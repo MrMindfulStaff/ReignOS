@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(npx prisma init:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(npm uninstall resend)",
+      "Bash(npm install nodemailer)",
+      "Bash(npm install --save-dev @types/nodemailer)",
+      "Bash(npm install --save-dev @types/trusted-types)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(npm install @anthropic-ai/sdk)"
+    ]
+  }
+}

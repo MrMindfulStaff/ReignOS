@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  content     String    // JSON string from TipTap
+  coverImage  String?   // Vercel Blob URL
+  published   Boolean   @default(false)
+  featured    Boolean   @default(false)
+  author      String    @default("Admin")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  tags PostTag[]
+
+  scheduledAt DateTime? // Future publish date; cron sets published=true when due
+
+  // SEO fields
+  metaTitle       String?
+  metaDescription String?
+
+  @@index([published, createdAt])
+}
+
+model Tag {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  slug  String @unique
+  color String @default("#6366f1")
+
+  posts PostTag[]
+
+  createdAt DateTime @default(now())
+}
+
+model PostTag {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  postId String @db.ObjectId
+  tagId  String @db.ObjectId
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, tagId])
+}
