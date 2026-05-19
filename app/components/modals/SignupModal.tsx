@@ -4,25 +4,43 @@ import { useState } from 'react';
 import Modal from '../Modal';
 import { useModal } from '../../contexts/ModalContext';
 
-const MAILCHIMP_ACTION_URL = 'https://reignos.us21.list-manage.com/subscribe/post?u=51c8d9860074f1c7205c2f452&id=3e97664d88&f_id=00d743e6f0';
-
 export default function SignupModal() {
   const { activeModal, closeModal } = useModal();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    setSubmitStatus('idle');
+
+    const form = e.currentTarget;
+    const data = {
+      FNAME: (form.elements.namedItem('FNAME') as HTMLInputElement).value,
+      LNAME: (form.elements.namedItem('LNAME') as HTMLInputElement).value,
+      EMAIL: (form.elements.namedItem('EMAIL') as HTMLInputElement).value,
+      PHONE: (form.elements.namedItem('PHONE') as HTMLInputElement).value,
+    };
+
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error();
       setSubmitStatus('success');
-      setIsSubmitting(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).dataLayer?.push({
         event: 'sign_up',
         event_category: 'form',
         event_label: 'signup_modal',
       });
-    }, 1000);
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -53,6 +71,25 @@ export default function SignupModal() {
             Close
           </button>
         </div>
+      ) : submitStatus === 'error' ? (
+        <div className="text-center py-8">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center">
+            <svg className="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-4">Something went wrong</h3>
+          <p className="text-gray-300 text-lg mb-6">
+            Please try again, or email us directly at{' '}
+            <a href="mailto:Reginald@reignos.com" className="text-purple-400 hover:text-purple-300">Reginald@reignos.com</a>.
+          </p>
+          <button
+            onClick={() => setSubmitStatus('idle')}
+            className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold transition-all border border-white/20"
+          >
+            Try Again
+          </button>
+        </div>
       ) : (
         <>
           <div className="text-center mb-8">
@@ -64,15 +101,7 @@ export default function SignupModal() {
             </p>
           </div>
 
-          <form
-            action={MAILCHIMP_ACTION_URL}
-            method="post"
-            id="mc-embedded-subscribe-form-signup-modal"
-            name="mc-embedded-subscribe-form"
-            target="_blank"
-            onSubmit={handleSubmit}
-            className="space-y-5"
-          >
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid md:grid-cols-2 gap-5">
               {/* First Name */}
               <div className="space-y-2">
@@ -132,19 +161,6 @@ export default function SignupModal() {
                 required
                 placeholder="(555) 123-4567"
                 className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-400/50"
-              />
-            </div>
-
-            {/* Hidden fields */}
-            <input type="hidden" name="EMAILTYPE" value="html" />
-
-            {/* Honeypot field */}
-            <div aria-hidden="true" style={{ position: 'absolute', left: '-5000px' }}>
-              <input
-                type="text"
-                name="b_51c8d9860074f1c7205c2f452_3e97664d88"
-                tabIndex={-1}
-                defaultValue=""
               />
             </div>
 

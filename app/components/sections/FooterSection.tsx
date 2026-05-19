@@ -1,8 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useModal } from '../../contexts/ModalContext';
 
 export default function FooterSection() {
+  const { openModal } = useModal();
+
   return (
     <footer className="bg-slate-950 text-gray-400 py-12">
       <div className="max-w-7xl mx-auto px-6">
@@ -22,19 +25,20 @@ export default function FooterSection() {
                 </a>
               </li>
               <li>
-                <a href="#pricing" className="hover:text-white transition">
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a href="#demo" className="hover:text-white transition">
+                <button
+                  onClick={() => openModal('demo')}
+                  className="hover:text-white transition text-left"
+                >
                   Book a Demo
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#signup" className="hover:text-white transition">
+                <button
+                  onClick={() => openModal('signup')}
+                  className="hover:text-white transition text-left"
+                >
                   Early Access
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -84,15 +88,6 @@ export default function FooterSection() {
                   Book a Demo
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/contact"
-                  onClick={() => (window as any).dataLayer?.push({ event: 'cta_click', event_category: 'navigation', event_label: 'footer_contact' })}
-                  className="hover:text-white transition"
-                >
-                  Contact Form
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -103,4 +98,3 @@ export default function FooterSection() {
     </footer>
   );
 }
-
