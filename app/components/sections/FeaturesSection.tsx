@@ -202,11 +202,13 @@ export default function FeaturesSection() {
               <div className="inline-block px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm font-semibold mb-6 border border-white/20">
                 First of Its Kind
               </div>
-              <img
-                src="/rtr-logo.png"
-                alt="Real-Time Resume"
-                className="h-48 md:h-64 w-auto mx-auto mb-4"
-              />
+              <div className="mx-auto mb-4 w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/50 backdrop-blur-sm flex items-center justify-center">
+                <img
+                  src="/rtr-logo.png"
+                  alt="Real-Time Resume"
+                  className="h-44 md:h-56 w-auto"
+                />
+              </div>
               <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
                 Unlike a traditional resume that's static and outdated the moment it's printed,
                 the Real-Time Resume lives in the cloud and is continuously updated with every verified time punch.
